@@ -1,15 +1,16 @@
 import os
-import cfg
+import ref
 import dxf
 import scipy
 import numpy as np
 
 
 class curve:
-  def __init__(self, wg, radius, angle):
+  def __init__(self, wg, radius, angle, draft):
     self.wg = wg
+    self.r = radius
     self.angle = angle
-    self.radius = radius
+    self.draft = draft
     self.length = 0
 
     df = self.load()
@@ -21,8 +22,7 @@ class curve:
     self.dy = (self.y[self.m - 1] + self.y[self.m]) * 0.5
 
   def device(self, fp):
-    num = self.radius * 0.2 if cfg.draft != 'mask' else self.radius * 4
-    num = self.radius * 0.2 if self.wg > cfg.wg else num
+    num = self.r * 0.2 if self.draft != 'mask' else self.r * 4
 
     s = np.sqrt(self.angle / 180)
     c = np.sqrt(np.pi * 0.5)
@@ -31,8 +31,8 @@ class curve:
     p = t * c
 
     xt, yt = scipy.special.fresnel(t)
-    x = yt * c * self.radius
-    y = xt * c * self.radius
+    x = yt * c * self.r
+    y = xt * c * self.r
     px = np.sin(p * p)
     py = np.cos(p * p)
 
@@ -65,13 +65,13 @@ class curve:
     yp = np.hstack((yp, yf[m:]))
 
     np.save(fp, {'m': m * 2, 'x': xp, 'y': yp, 'l': length})
-    print(f'-- Euler 곡선; {self.wg}W, {self.radius}R', end=', ')
-    print(f'{self.angle}도 회전, {m} points ({cfg.draft})')
+    print(f'-- Euler 곡선; {self.wg}W, {self.r}R', end=', ')
+    print(f'{self.angle}도 회전, {m} points ({self.draft})')
 
   def load(self):
     w = round(self.wg, 4)
-    r = round(self.radius, 4)
+    r = round(self.r, 4)
     a = round(self.angle, 4)
-    fp = f'{cfg.libs}/euler_{w}_{r}_{a}_{cfg.draft}.npy'
+    fp = f'{ref.libs}/euler_{w}_{r}_{a}_{self.draft}.npy'
     if not os.path.isfile(fp): self.device(fp)
     return np.load(fp, allow_pickle=True).item()

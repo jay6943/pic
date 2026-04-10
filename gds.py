@@ -1,4 +1,4 @@
-import cfg
+import ref
 import pya
 
 
@@ -8,8 +8,8 @@ def saveas(filename):
   layout.dbu = 0.001
   top = layout.create_cell('TOP')
 
-  for i, points in enumerate(cfg.points):
-    label = cfg.label[cfg.layers[i]]
+  for i, points in enumerate(ref.points):
+    label = ref.labels[ref.layers[i]]
     layer = layout.layer(pya.LayerInfo(label, 0))
 
     points = [pya.DPoint(x, y) for x, y in points]
@@ -17,7 +17,7 @@ def saveas(filename):
     top.shapes(layer).insert(polygon)
 
   print(f'writing {filename}.gds ...')
-  layout.write(f'{cfg.work}/{filename}.gds')
+  layout.write(f'{ref.work}/{filename}.gds')
   print()
 
 
@@ -28,13 +28,13 @@ def savelayer(filename):
   top = layout.create_cell('TOP')
   layer = layout.layer(pya.LayerInfo(1, 0))
 
-  for points in cfg.points:
+  for points in ref.points:
     points = [pya.DPoint(x, y) for x, y in points]
     polygon = pya.DPolygon(points)
     top.shapes(layer).insert(polygon)
 
   print(f'writing {filename}.gds ...')
-  layout.write(f'{cfg.work}/{filename}.gds')
+  layout.write(f'{ref.work}/{filename}.gds')
   print()
 
 
@@ -45,10 +45,10 @@ def dxf2gds(filename):
   options = pya.LoadLayoutOptions()
 
   print(f'reading {filename}.dxf ...')
-  layout.read(f'{cfg.work}/{filename}.dxf', options)
+  layout.read(f'{ref.work}/{filename}.dxf', options)
 
   print(f'writing {filename}.gds ...')
-  layout.write(f'{cfg.work}/{filename}.gds')
+  layout.write(f'{ref.work}/{filename}.gds')
   print()
 
 
@@ -57,12 +57,12 @@ def dlayers(filename, label1, label2):
   layout = pya.Layout()
   layout.dbu = 0.001
   print(f'reading {filename} ...')
-  layout.read(f'{cfg.work}/{filename}.gds')
+  layout.read(f'{ref.work}/{filename}.gds')
 
   top = layout.top_cell()
 
-  layer1 = layout.find_layer(cfg.label[label1], 0)
-  layer2 = layout.find_layer(cfg.label[label2], 0)
+  layer1 = layout.find_layer(ref.labels[label1], 0)
+  layer2 = layout.find_layer(ref.labels[label2], 0)
 
   region1 = pya.Region(top.shapes(layer1))
   region2 = pya.Region(top.shapes(layer2))
@@ -72,7 +72,7 @@ def dlayers(filename, label1, label2):
   top.shapes(layer2).insert(region1 - region2)
 
   print(f'writing {filename} ...')
-  layout.write(f'{cfg.work}/{filename}.gds')
+  layout.write(f'{ref.work}/{filename}.gds')
   print()
 
 
@@ -85,9 +85,9 @@ def dfiles(fp1, nlayer1, fp2, nlayer2):
   layout2.dbu = 0.001
 
   print(f'reading {fp1} ...')
-  layout1.read(f'{cfg.work}/{fp1}.gds')
+  layout1.read(f'{ref.work}/{fp1}.gds')
   print(f'reading {fp2} ...')
-  layout2.read(f'{cfg.work}/{fp2}.gds')
+  layout2.read(f'{ref.work}/{fp2}.gds')
 
   layer1 = layout1.find_layer(nlayer1, 0)
   layer2 = layout2.find_layer(nlayer2, 0)
@@ -102,7 +102,7 @@ def dfiles(fp1, nlayer1, fp2, nlayer2):
   top1.shapes(layer1).insert(region1 - region2)
 
   print(f'writing {fp1} ...')
-  layout1.write(f'{cfg.work}/{fp1}.gds')
+  layout1.write(f'{ref.work}/{fp1}.gds')
   print()
 
 
@@ -115,9 +115,9 @@ def mfiles(fp1, nlayer1, fp2, nlayer2):
   layout2.dbu = 0.001
 
   print(f'reading {fp1} ...')
-  layout1.read(f'{cfg.work}/{fp1}.gds')
+  layout1.read(f'{ref.work}/{fp1}.gds')
   print(f'reading {fp2} ...')
-  layout2.read(f'{cfg.work}/{fp2}.gds')
+  layout2.read(f'{ref.work}/{fp2}.gds')
 
   layer1 = layout1.find_layer(nlayer1, 0)
   layer2 = layout2.find_layer(nlayer2, 0)
@@ -133,7 +133,7 @@ def mfiles(fp1, nlayer1, fp2, nlayer2):
   top1.shapes(layer1).insert(region1 + region2)
 
   print(f'writing {fp1} ...')
-  layout1.write(f'{cfg.work}/{fp1}.gds')
+  layout1.write(f'{ref.work}/{fp1}.gds')
   print()
 
 
@@ -143,16 +143,16 @@ def texts(filename):
   layout.dbu = 0.001
 
   print(f'reading {filename} ...')
-  layout.read(f'{cfg.work}/{filename}.gds')
+  layout.read(f'{ref.work}/{filename}.gds')
   top = layout.top_cell()
-  layer = layout.layer(pya.LayerInfo(cfg.label['text'], 0))
+  layer = layout.layer(pya.LayerInfo(ref.labels['text'], 0))
 
   x, y = 11000, 0
-  for title in reversed(list(cfg.label.keys())):
-    text = f'{cfg.label[title]}. {title}'
+  for title in reversed(list(ref.labels.keys())):
+    text = f'{ref.labels[title]}. {title}'
     top.shapes(layer).insert(pya.DText(text, pya.DVector(x, y)))
     y += 1000
 
   print(f'writing {filename}.gds ...')
-  layout.write(f'{cfg.work}/{filename}.gds')
+  layout.write(f'{ref.work}/{filename}.gds')
   print()
