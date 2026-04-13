@@ -1,5 +1,4 @@
 import os
-import ref
 import dxf
 import scipy
 import numpy as np
@@ -72,6 +71,6 @@ class curve:
     w = round(self.wg, 4)
     r = round(self.r, 4)
     a = round(self.angle, 4)
-    fp = f'{ref.libs}/euler_{w}_{r}_{a}_{self.draft}.npy'
+    fp = f'{dxf.libs}/euler_{w}_{r}_{a}_{self.draft}.npy'
     if not os.path.isfile(fp): self.device(fp)
     return np.load(fp, allow_pickle=True).item()
