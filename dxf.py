@@ -202,14 +202,6 @@ def tilts(layer, x, y, length, width, angle):
   return (xp[1] + xp[2]) * 0.5, (yp[1] + yp[2]) * 0.5
 
 
-def grating(layer, x, y, df, sign):
-  if sign < 0:
-    df.guide[:, 0] *= -1
-    df.rects[:, :, 0] *= -1
-  appends(layer, df.guide + [x, y])
-  for xy in df.rects: appends(layer, xy + [x, y])
-
-
 def texts(layer, x, y, title, scale, align):
   spacing, ht, lt = 50, 100, 0
   for ch in title:
