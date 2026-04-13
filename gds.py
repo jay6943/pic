@@ -137,7 +137,7 @@ def mfiles(fp1, nlayer1, fp2, nlayer2):
   print()
 
 
-def texts(filename, labels):
+def texts(filename, labels, x, y):
   print('Save a GDS layer')
   layout = pya.Layout()
   layout.dbu = 0.001
@@ -147,7 +147,7 @@ def texts(filename, labels):
   top = layout.top_cell()
   layer = layout.layer(pya.LayerInfo(labels['text'], 0))
 
-  x, y = 11000, 0
+  # x, y = 11000, 0
   for title in reversed(list(labels.keys())):
     text = f'{labels[title]}. {title}'
     top.shapes(layer).insert(pya.DText(text, pya.DVector(x, y)))
