@@ -5,3 +5,5 @@ msp = doc.modelspace()
 
 layers = []
 points = []
+
+libs = '../../mask/libs'

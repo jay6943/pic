@@ -147,7 +147,6 @@ def texts(filename, labels, x, y):
   top = layout.top_cell()
   layer = layout.layer(pya.LayerInfo(labels['text'], 0))
 
-  # x, y = 11000, 0
   for title in reversed(list(labels.keys())):
     text = f'{labels[title]}. {title}'
     top.shapes(layer).insert(pya.DText(text, pya.DVector(x, y)))
