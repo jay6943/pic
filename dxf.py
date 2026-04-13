@@ -2,6 +2,7 @@ import txt
 import ezdxf
 import numpy as np
 
+
 doc = ezdxf.new()
 msp = doc.modelspace()
 
