@@ -76,6 +76,30 @@ def dlayers(filename, labels, label1, label2):
   print()
 
 
+def players(filename, labels, label1, label2):
+  print(f'Difference layers, #{label1} - #{label2}')
+  layout = pya.Layout()
+  layout.dbu = 0.001
+  print(f'reading {filename} ...')
+  layout.read(f'{filename}.gds')
+
+  top = layout.top_cell()
+
+  layer1 = layout.find_layer(labels[label1], 0)
+  layer2 = layout.find_layer(labels[label2], 0)
+
+  region1 = pya.Region(top.shapes(layer1))
+  region2 = pya.Region(top.shapes(layer2))
+
+  top.shapes(layer1).clear()
+  top.shapes(layer2).clear()
+  top.shapes(layer2).insert(region1 + region2)
+
+  print(f'writing {filename} ...')
+  layout.write(f'{filename}.gds')
+  print()
+
+
 def dfiles(fp1, nlayer1, fp2, nlayer2):
   print(f'Difference, #{nlayer1} of {fp1} - #{nlayer2} of {fp2}')
   layout1 = pya.Layout()
