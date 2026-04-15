@@ -1,4 +1,4 @@
-import cfg
+import ref
 import fontTools.ttLib as ftl
 import fontTools.pens.basePen as ftp
 
@@ -56,7 +56,7 @@ def print_glyph_outline(ttf_path, char, layer, x, y):
 
   print(f'\'{char}\': [', end='')
   for i, points in enumerate(blocks):
-    cfg.msp.add_lwpolyline(points, close=True, dxfattribs={'layer': layer})
+    ref.msp.add_lwpolyline(points, close=True, dxfattribs={'layer': layer})
     if i < len(blocks) - 1: print(f'{points}, ', end='')
     else: print(f'{points}],')
 
@@ -87,4 +87,4 @@ if __name__ == '__main__':
   for i, chars in enumerate(texts):
     print(f'\'{chars}\': {xmax[i]},', end=' ')
 
-  cfg.doc.saveas(f'{cfg.path}/fonts.dxf')
+  ref.doc.saveas(f'{ref.libs}/fonts.dxf')
