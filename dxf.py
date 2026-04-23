@@ -107,9 +107,9 @@ def center(idev, x1, x2, lchip):
   return x3 - ldev, x3
 
 
-def arange(xstart, xstop, xstep):
+def arange(xstart, xstop, xstep, nums):
   var = np.arange(xstart, xstop + xstep * 0.5, xstep)
-  var = np.round(var, 3)
+  var = np.round(var, nums)
   return var
 
 
@@ -129,6 +129,11 @@ def arc(layer, x, y, radius, start, stop, n):
   yp = np.append(yp, np.array([y]))
   appends(layer, np.array([xp, yp]).transpose())
   return x, y
+
+
+def rects(layer, x1, y1, x2, y2, x3, y3, x4, y4):
+  appends(layer, [[x1, y1], [x2, y2], [x3, y3], [x4, y4]])
+  return x1, y1
 
 
 def crect(layer, x1, y1, x2, y2):
@@ -156,10 +161,10 @@ def taper(layer, x, y, length, start, stop):
   return x + length, y
 
 
-def triangle(layer, x, y, width, height):
-  points = [[x, y + height], [x + width * 0.5, y], [x - width * 0.5, y]]
+def triangle(layer, x1, y1, x2, y2, x3, y3):
+  points = [[x1, y1], [x2, y2], [x3, y3]]
   appends(layer, points)
-  return x, y
+  return x1, y1
 
 
 def bends(layer, df, x, y, angle, xsign, ysign):
