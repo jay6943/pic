@@ -107,7 +107,10 @@ def center(idev, x1, x2, lchip):
   return x3 - ldev, x3
 
 
-def arange(xstart, xstop, xstep, nums):
+def arange(xstart, xstop, xstep):
+  s = str(xstep)
+  if '.' not in s: nums = 0
+  else: nums = len(s.split('.')[1])  
   var = np.arange(xstart, xstop + xstep * 0.5, xstep)
   var = np.round(var, nums)
   return var
