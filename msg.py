@@ -16,7 +16,7 @@ def check_process(filepath):
   
   start = dt.datetime.now()
   filename = filepath.split('/')[-1][:-7]
-  print(f'{strtime(start)}, {filename} 시작')
+  print(f'{strtime(start)}, {filename} 시뮬레이션 시작')
   
   check_completed = True
   while check_completed:
