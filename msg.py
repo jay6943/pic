@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import requests
@@ -9,9 +10,14 @@ def strtime(at):
   
 
 def check_process(filepath):
+  if not os.path.isfile(filepath):
+    print(f'Error, no {filepath}')
+    return 1
+  
   start = dt.datetime.now()
   fp = filepath.split('/')[-1][:-7]
   print(f'{strtime(start)}, {fp} 시작')
+  
   check_completed = True
   while check_completed:
     time.sleep(600)
@@ -22,9 +28,13 @@ def check_process(filepath):
     fp.close()
     if check_completed:
       print(f'{strtime(dt.datetime.now())}, {line.split('. ')[0]}.')
+  
   stop = dt.datetime.now()
   print(f'시뮬레이션 시간, {str(stop - start).split('.')[0]}')
+  
   send_discord_message(f'{strtime(stop)}, {fp} 완료')
+  
+  return 0
 
 
 def send_discord_message(message):
