@@ -16,7 +16,7 @@ def saveas(filename, labels):
     polygon = pya.DPolygon(points)
     top.shapes(layer).insert(polygon)
 
-  print(f'writing {filename}.gds ...')
+  print(f'writing {filename}.gds')
   layout.write(f'{filename}.gds')
   print()
 
@@ -33,7 +33,7 @@ def savelayer(filename):
     polygon = pya.DPolygon(points)
     top.shapes(layer).insert(polygon)
 
-  print(f'writing {filename}.gds ...')
+  print(f'writing {filename}.gds')
   layout.write(f'{filename}.gds')
   print()
 
@@ -44,10 +44,10 @@ def dxf2gds(filename):
   layout.dbu = 0.001
   options = pya.LoadLayoutOptions()
 
-  print(f'reading {filename}.dxf ...')
+  print(f'reading {filename}.dxf')
   layout.read(f'{filename}.dxf', options)
 
-  print(f'writing {filename}.gds ...')
+  print(f'writing {filename}.gds')
   layout.write(f'{filename}.gds')
   print()
 
@@ -56,7 +56,7 @@ def dlayers(filename, labels, label1, label2):
   print(f'Difference layers, #{label1} - #{label2}')
   layout = pya.Layout()
   layout.dbu = 0.001
-  print(f'reading {filename} ...')
+  print(f'reading {filename}')
   layout.read(f'{filename}.gds')
 
   top = layout.top_cell()
@@ -71,7 +71,7 @@ def dlayers(filename, labels, label1, label2):
   top.shapes(layer2).clear()
   top.shapes(layer2).insert(region1 - region2)
 
-  print(f'writing {filename} ...')
+  print(f'writing {filename}')
   layout.write(f'{filename}.gds')
   print()
 
@@ -80,7 +80,7 @@ def players(filename, labels, label1, label2):
   print(f'Difference layers, #{label1} - #{label2}')
   layout = pya.Layout()
   layout.dbu = 0.001
-  print(f'reading {filename} ...')
+  print(f'reading {filename}')
   layout.read(f'{filename}.gds')
 
   top = layout.top_cell()
@@ -95,7 +95,7 @@ def players(filename, labels, label1, label2):
   top.shapes(layer2).clear()
   top.shapes(layer2).insert(region1 + region2)
 
-  print(f'writing {filename} ...')
+  print(f'writing {filename}')
   layout.write(f'{filename}.gds')
   print()
 
@@ -108,9 +108,9 @@ def dfiles(fp1, nlayer1, fp2, nlayer2):
   layout1.dbu = 0.001
   layout2.dbu = 0.001
 
-  print(f'reading {fp1} ...')
+  print(f'reading {fp1}')
   layout1.read(f'{fp1}.gds')
-  print(f'reading {fp2} ...')
+  print(f'reading {fp2}')
   layout2.read(f'{fp2}.gds')
 
   layer1 = layout1.find_layer(nlayer1, 0)
@@ -125,7 +125,7 @@ def dfiles(fp1, nlayer1, fp2, nlayer2):
   top1.shapes(layer1).clear()
   top1.shapes(layer1).insert(region1 - region2)
 
-  print(f'writing {fp1} ...')
+  print(f'writing {fp1}')
   layout1.write(f'{fp1}.gds')
   print()
 
@@ -138,9 +138,9 @@ def mfiles(fp1, nlayer1, fp2, nlayer2):
   layout1.dbu = 0.001
   layout2.dbu = 0.001
 
-  print(f'reading {fp1} ...')
+  print(f'reading {fp1}')
   layout1.read(f'{fp1}.gds')
-  print(f'reading {fp2} ...')
+  print(f'reading {fp2}')
   layout2.read(f'{fp2}.gds')
 
   layer1 = layout1.find_layer(nlayer1, 0)
@@ -156,7 +156,7 @@ def mfiles(fp1, nlayer1, fp2, nlayer2):
   top2.shapes(layer2).clear()
   top1.shapes(layer1).insert(region1 + region2)
 
-  print(f'writing {fp1} ...')
+  print(f'writing {fp1}')
   layout1.write(f'{fp1}.gds')
   print()
 
@@ -166,7 +166,7 @@ def texts(filename, labels, x, y):
   layout = pya.Layout()
   layout.dbu = 0.001
 
-  print(f'reading {filename} ...')
+  print(f'reading {filename}')
   layout.read(f'{filename}.gds')
   top = layout.top_cell()
   layer = layout.layer(pya.LayerInfo(labels['text'], 0))
@@ -176,6 +176,6 @@ def texts(filename, labels, x, y):
     top.shapes(layer).insert(pya.DText(text, pya.DVector(x, y)))
     y += 1000
 
-  print(f'writing {filename}.gds ...')
+  print(f'writing {filename}.gds')
   layout.write(f'{filename}.gds')
   print()

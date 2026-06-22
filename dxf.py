@@ -146,8 +146,7 @@ def crect(layer, x1, y1, x2, y2):
 
 def srect(layer, x, y, length, width):
   w = width * 0.5
-  points = [[x, y - w], [x + length, y - w], [x + length, y + w], [x, y + w]]
-  appends(layer, points)
+  crect(layer, x, y - w, x + length, y + w)
   return x + length, y
 
 
