@@ -4,22 +4,27 @@ import requests
 import datetime as dt
 
 
+def strtime(at):
+  return at.strftime('%H:%M:%S')
+  
+
 def check_process(filepath):
-  at = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+  start = dt.datetime.now()
   fp = filepath.split('/')[-1][:-7]
-  print(f'{at}, {fp} 시뮬레이션 시작')
+  print(f'{strtime(start)}, {fp} 시작')
   check_completed = True
   while check_completed:
     time.sleep(600)
-    at = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     fp = open(filepath, 'r', encoding='utf-8')
     for line in fp:
       if 'Simulation completed successfully' in line:
         check_completed = False
     fp.close()
     if check_completed:
-      print(f'{at}, {line.split('. ')[0]}.')
-  send_discord_message(f'{at}\n{fp}\n시뮬레이션 완료')
+      print(f'{strtime(dt.datetime.now())}, {line.split('. ')[0]}.')
+  stop = dt.datetime.now()
+  print(f'시뮬레이션 시간, {str(stop - start).split('.')[0]}')
+  send_discord_message(f'{strtime(stop)}, {fp} 완료')
 
 
 def send_discord_message(message):
