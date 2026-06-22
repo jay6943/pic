@@ -32,7 +32,7 @@ def check_process(filepath):
   stop = dt.datetime.now()
   print(f'시뮬레이션 시간, {str(stop - start).split('.')[0]}')
   
-  send_discord_message(f'{strtime(stop)}, {filename} 완료')
+  send_discord_message(f'{strtime(stop)}, 시뮬레이션 완료\n{filename}')
   
   return 0
 
