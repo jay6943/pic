@@ -15,8 +15,8 @@ def check_process(filepath):
     return 1
   
   start = dt.datetime.now()
-  fp = filepath.split('/')[-1][:-7]
-  print(f'{strtime(start)}, {fp} 시작')
+  filename = filepath.split('/')[-1][:-7]
+  print(f'{strtime(start)}, {filename} 시작')
   
   check_completed = True
   while check_completed:
@@ -32,7 +32,7 @@ def check_process(filepath):
   stop = dt.datetime.now()
   print(f'시뮬레이션 시간, {str(stop - start).split('.')[0]}')
   
-  send_discord_message(f'{strtime(stop)}, {fp} 완료')
+  send_discord_message(f'{strtime(stop)}, {filename} 완료')
   
   return 0
 
