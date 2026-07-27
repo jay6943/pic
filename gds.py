@@ -1,9 +1,12 @@
 import ref
 import pya
 
+options = pya.SaveLayoutOptions()
+options.format = 'GDS2'
+options.gds2_max_vertex_count = 4000
+
 
 def saveas(filename, labels):
-  print('Save a GDS layer')
   layout = pya.Layout()
   layout.dbu = 0.001
   top = layout.create_cell('TOP')
@@ -16,13 +19,10 @@ def saveas(filename, labels):
     polygon = pya.DPolygon(points)
     top.shapes(layer).insert(polygon)
 
-  print(f'writing {filename}.gds')
-  layout.write(f'{filename}.gds')
-  print()
+  layout.write(f'{filename}.gds', options)
 
 
 def savelayer(filename):
-  print('Save a GDS layer')
   layout = pya.Layout()
   layout.dbu = 0.001
   top = layout.create_cell('TOP')
@@ -33,30 +33,20 @@ def savelayer(filename):
     polygon = pya.DPolygon(points)
     top.shapes(layer).insert(polygon)
 
-  print(f'writing {filename}.gds')
-  layout.write(f'{filename}.gds')
-  print()
+  layout.write(f'{filename}.gds', options)
 
 
 def dxf2gds(filename):
-  print('DXF to GDS')
   layout = pya.Layout()
   layout.dbu = 0.001
-  options = pya.LoadLayoutOptions()
 
-  print(f'reading {filename}.dxf')
-  layout.read(f'{filename}.dxf', options)
-
-  print(f'writing {filename}.gds')
-  layout.write(f'{filename}.gds')
-  print()
+  layout.read(f'{filename}.dxf')
+  layout.write(f'{filename}.gds', options)
 
 
 def dlayers(filename, labels, label1, label2):
-  print(f'Difference layers, #{label1} - #{label2}')
   layout = pya.Layout()
   layout.dbu = 0.001
-  print(f'reading {filename}')
   layout.read(f'{filename}.gds')
 
   top = layout.top_cell()
@@ -71,16 +61,12 @@ def dlayers(filename, labels, label1, label2):
   top.shapes(layer2).clear()
   top.shapes(layer2).insert(region1 - region2)
 
-  print(f'writing {filename}')
-  layout.write(f'{filename}.gds')
-  print()
+  layout.write(f'{filename}.gds', options)
 
 
 def players(filename, labels, label1, label2):
-  print(f'Difference layers, #{label1} - #{label2}')
   layout = pya.Layout()
   layout.dbu = 0.001
-  print(f'reading {filename}')
   layout.read(f'{filename}.gds')
 
   top = layout.top_cell()
@@ -95,22 +81,17 @@ def players(filename, labels, label1, label2):
   top.shapes(layer2).clear()
   top.shapes(layer2).insert(region1 + region2)
 
-  print(f'writing {filename}')
-  layout.write(f'{filename}.gds')
-  print()
+  layout.write(f'{filename}.gds', options)
 
 
 def dfiles(fp1, nlayer1, fp2, nlayer2):
-  print(f'Difference, #{nlayer1} of {fp1} - #{nlayer2} of {fp2}')
   layout1 = pya.Layout()
   layout2 = pya.Layout()
 
   layout1.dbu = 0.001
   layout2.dbu = 0.001
 
-  print(f'reading {fp1}')
   layout1.read(f'{fp1}.gds')
-  print(f'reading {fp2}')
   layout2.read(f'{fp2}.gds')
 
   layer1 = layout1.find_layer(nlayer1, 0)
@@ -125,22 +106,17 @@ def dfiles(fp1, nlayer1, fp2, nlayer2):
   top1.shapes(layer1).clear()
   top1.shapes(layer1).insert(region1 - region2)
 
-  print(f'writing {fp1}')
-  layout1.write(f'{fp1}.gds')
-  print()
+  layout1.write(f'{fp1}.gds', options)
 
 
 def mfiles(fp1, nlayer1, fp2, nlayer2):
-  print(f'Merge, #{nlayer1} of {fp1} - #{nlayer2} of {fp2}')
   layout1 = pya.Layout()
   layout2 = pya.Layout()
 
   layout1.dbu = 0.001
   layout2.dbu = 0.001
 
-  print(f'reading {fp1}')
   layout1.read(f'{fp1}.gds')
-  print(f'reading {fp2}')
   layout2.read(f'{fp2}.gds')
 
   layer1 = layout1.find_layer(nlayer1, 0)
@@ -156,17 +132,13 @@ def mfiles(fp1, nlayer1, fp2, nlayer2):
   top2.shapes(layer2).clear()
   top1.shapes(layer1).insert(region1 + region2)
 
-  print(f'writing {fp1}')
-  layout1.write(f'{fp1}.gds')
-  print()
+  layout1.write(f'{fp1}.gds', options)
 
 
 def texts(filename, labels, x, y):
-  print('Save a GDS layer')
   layout = pya.Layout()
   layout.dbu = 0.001
 
-  print(f'reading {filename}')
   layout.read(f'{filename}.gds')
   top = layout.top_cell()
   layer = layout.layer(pya.LayerInfo(labels['text'], 0))
@@ -176,6 +148,4 @@ def texts(filename, labels, x, y):
     top.shapes(layer).insert(pya.DText(text, pya.DVector(x, y)))
     y += 1000
 
-  print(f'writing {filename}.gds')
-  layout.write(f'{filename}.gds')
-  print()
+  layout.write(f'{filename}.gds', options)
