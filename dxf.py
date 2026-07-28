@@ -1,40 +1,40 @@
-import ref
+import dat
 import txt
 import numpy as np
 
 
 def appends(layer, points):
-  if layer not in ref.layers:
-    ref.doc.layers.add(name=layer)
-  ref.layers.append(layer)
-  ref.points.append(points)
+  if layer not in dat.layers:
+    dat.doc.layers.add(name=layer)
+  dat.layers.append(layer)
+  dat.points.append(points)
 
 
 def saveas(filename):
-  for i, points in enumerate(ref.points):
-    ref.msp.add_lwpolyline(
+  for i, points in enumerate(dat.points):
+    dat.msp.add_lwpolyline(
       points,
       close=True,
-      dxfattribs={'layer': ref.layers[i]}
+      dxfattribs={'layer': dat.layers[i]}
     )
-  ref.doc.saveas(f'{filename}.dxf')
+  dat.doc.saveas(f'{filename}.dxf')
 
 
 def savelayer(filename, layers):
-  for i, points in enumerate(ref.points):
-    if ref.layers[i] in layers:
-      ref.msp.add_lwpolyline(
+  for i, points in enumerate(dat.points):
+    if dat.layers[i] in layers:
+      dat.msp.add_lwpolyline(
         points,
         close=True,
-        dxfattribs={'layer': ref.layers[i]}
+        dxfattribs={'layer': dat.layers[i]}
       )
-  ref.doc.saveas(f'{filename}.dxf')
+  dat.doc.saveas(f'{filename}.dxf')
 
 
 def split(layer, dx, dy):
-  for i, points in enumerate(ref.points):
-    if ref.layers[i] in [layer]:
-      ref.points[i] = np.array(points) + [dx, dy]
+  for i, points in enumerate(dat.points):
+    if dat.layers[i] in [layer]:
+      dat.points[i] = np.array(points) + [dx, dy]
 
 
 def rmatrix(angle):
@@ -52,8 +52,8 @@ def rotator(xp, yp, angle):
 def move(idev, x1, y1, x2, y2, dx, dy, angle):
   xp, yp = [], []
   p1, p2 = [], []
-  for i in range(idev, len(ref.points)):
-    df = np.array(ref.points[i]).transpose()
+  for i in range(idev, len(dat.points)):
+    df = np.array(dat.points[i]).transpose()
     p1 = np.array([[x1], [y1]])
     p2 = np.array([[x2], [y2]])
     if abs(angle) > 0:
@@ -63,41 +63,41 @@ def move(idev, x1, y1, x2, y2, dx, dy, angle):
       p2 = rf @ p2
     xp = x1 - p1[0, 0] + dx
     yp = y1 - p1[1, 0] + dy
-    ref.points[i] = df.transpose() + [xp, yp]
+    dat.points[i] = df.transpose() + [xp, yp]
   return p2[0, 0] + xp, p2[1, 0] + yp
 
 
 def rotation(idev, x, y, xt, yt, angle):
   tf, px, py = [], [], []
-  for i in range(idev, len(ref.points)):
+  for i in range(idev, len(dat.points)):
     rf = rmatrix(angle)
-    df = rf @ np.array(ref.points[i]).transpose()
+    df = rf @ np.array(dat.points[i]).transpose()
     sf = rf @ [[x], [y]]
     tf = rf @ [[xt], [yt]]
     px = x - sf[0][0]
     py = y - sf[1][0]
-    ref.points[i] = df.transpose() + [px, py]
+    dat.points[i] = df.transpose() + [px, py]
   return tf[0][0] + px, tf[1][0] + py
 
 
 def xreverse(idev, x, y, xt, yt):
-  for i in range(idev, len(ref.points)):
-    df = np.array(ref.points[i]) - [x, y]
-    ref.points[i] = df * [-1, 1] + [x, y]
+  for i in range(idev, len(dat.points)):
+    df = np.array(dat.points[i]) - [x, y]
+    dat.points[i] = df * [-1, 1] + [x, y]
   return x * 2 - xt, yt
 
 
 def xrevshift(idev, x, y, xt, yt):
-  for i in range(idev, len(ref.points)):
-    df = np.array(ref.points[i]) - [x, y]
-    ref.points[i] = df * [-1, 1] + [xt, y * 2 - yt]
+  for i in range(idev, len(dat.points)):
+    df = np.array(dat.points[i]) - [x, y]
+    dat.points[i] = df * [-1, 1] + [xt, y * 2 - yt]
   return xt, y * 2 - yt
 
 
 def yreverse(idev, x, y, xt, yt):
-  for i in range(idev, len(ref.points)):
-    df = np.array(ref.points[i]) - [x, y]
-    ref.points[i] = df * [1, -1] + [x, y]
+  for i in range(idev, len(dat.points)):
+    df = np.array(dat.points[i]) - [x, y]
+    dat.points[i] = df * [1, -1] + [x, y]
   return xt, y * 2 - yt
 
 

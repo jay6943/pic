@@ -56,7 +56,7 @@ def print_glyph_outline(ttf_path, char, layer, x, y):
 
   print(f'\'{char}\': [', end='')
   for i, points in enumerate(blocks):
-    ref.msp.add_lwpolyline(points, close=True, dxfattribs={'layer': layer})
+    dat.msp.add_lwpolyline(points, close=True, dxfattribs={'layer': layer})
     if i < len(blocks) - 1: print(f'{points}, ', end='')
     else: print(f'{points}],')
 
@@ -87,4 +87,4 @@ if __name__ == '__main__':
   for i, chars in enumerate(texts):
     print(f'\'{chars}\': {xmax[i]},', end=' ')
 
-  ref.doc.saveas(f'{ref.libs}/fonts.dxf')
+  dat.doc.saveas(f'{dat.libs}/fonts.dxf')

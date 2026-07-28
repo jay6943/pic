@@ -11,8 +11,8 @@ def saveas(filename, labels):
   layout.dbu = 0.001
   top = layout.create_cell('TOP')
 
-  for i, points in enumerate(ref.points):
-    label = labels[ref.layers[i]]
+  for i, points in enumerate(dat.points):
+    label = labels[dat.layers[i]]
     layer = layout.layer(pya.LayerInfo(label, 0))
 
     points = [pya.DPoint(x, y) for x, y in points]
@@ -28,7 +28,7 @@ def savelayer(filename):
   top = layout.create_cell('TOP')
   layer = layout.layer(pya.LayerInfo(1, 0))
 
-  for points in ref.points:
+  for points in dat.points:
     points = [pya.DPoint(x, y) for x, y in points]
     polygon = pya.DPolygon(points)
     top.shapes(layer).insert(polygon)
