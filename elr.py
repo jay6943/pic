@@ -11,13 +11,12 @@ class curve:
     self.r = radius
     self.angle = angle
     self.draft = draft
-    self.length = 0
 
     df = self.load()
     self.m = df['m']
     self.x = df['x']
     self.y = df['y']
-    self.l = df['l']
+    self.length = df['length']
     self.dx = (self.x[self.m - 1] + self.x[self.m]) * 0.5
     self.dy = (self.y[self.m - 1] + self.y[self.m]) * 0.5
 
@@ -64,7 +63,7 @@ class curve:
     xp = np.hstack((xp, xf[m:]))
     yp = np.hstack((yp, yf[m:]))
 
-    np.save(fp, {'m': m * 2, 'x': xp, 'y': yp, 'l': length})
+    np.save(fp, {'m': m * 2, 'x': xp, 'y': yp, 'length': length})
     print(f'-- Euler 곡선; {self.wg}W, {self.r}R', end=', ')
     print(f'{self.angle}도 회전, {m} points ({self.draft})')
 
