@@ -5,11 +5,20 @@ import requests
 import datetime as dt
 
 
+def send_discord_message(message):
+  url = 'https://discord.com/api/webhooks/1516685405100052500'
+  key = 'wfEAmZeZq2oHwPzNUsn2u2n-d60BApE8kSZgPWyDxaxbV2zbH_3z2j-HaPoCDI3MJRCr'
+  payload = {'content': message}
+  response = requests.post(f'{url}/{key}', json=payload)
+  if response.status_code == 204: print('메시지가 성공적으로 전송되었습니다!')
+  else: print(f'전송 실패: 상태 코드 {response.status_code}')
+
+
 def strtime(at):
   return at.strftime('%H:%M:%S')
   
 
-def check_process(filepath):
+def is_completed(filepath):
   if not os.path.isfile(filepath):
     print(f'Error, no {filepath}')
     return 1
@@ -17,7 +26,8 @@ def check_process(filepath):
   start = dt.datetime.now()
   filename = filepath.split('/')[-1][:-7]
   print(f'{strtime(start)}, {filename} 시뮬레이션 시작')
-  
+
+  i_counting = 0
   check_completed = True
   while check_completed:
     time.sleep(600)
@@ -25,6 +35,11 @@ def check_process(filepath):
     for line in fp:
       if 'Simulation completed successfully' in line:
         check_completed = False
+    i_counting += 1
+    if check_completed and i_counting > 2:
+      texts = f'{line.split('complete.')[0]}'
+      send_discord_message(f'시뮬레이션 진행률, {texts}')
+      i_counting = 0
     fp.close()
     if check_completed:
       print(f'{strtime(dt.datetime.now())}, {line.split('. ')[0]}.')
@@ -37,13 +52,5 @@ def check_process(filepath):
   return 0
 
 
-def send_discord_message(message):
-  url = 'https://discord.com/api/webhooks/1516685405100052500'
-  key = 'wfEAmZeZq2oHwPzNUsn2u2n-d60BApE8kSZgPWyDxaxbV2zbH_3z2j-HaPoCDI3MJRCr'
-  payload = {'content': message}
-  response = requests.post(f'{url}/{key}', json=payload)
-  if response.status_code == 204: print('메시지가 성공적으로 전송되었습니다!')
-  else: print(f'전송 실패: 상태 코드 {response.status_code}')
 
-
-if __name__ == '__main__': check_process(f'{sys.argv[1]}.log')
+if __name__ == '__main__': is_completed(f'{sys.argv[1]}.log')
