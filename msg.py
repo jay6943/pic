@@ -36,7 +36,7 @@ def is_completed(filepath):
       if 'Simulation completed successfully' in line:
         check_completed = False
     i_counting += 1
-    if check_completed and i_counting > 2:
+    if check_completed and i_counting > 5:
       texts = f'{line.split('complete.')[0]}'
       send_discord_message(f'시뮬레이션 진행률, {texts}')
       i_counting = 0
