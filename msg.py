@@ -6,8 +6,10 @@ import datetime as dt
 
 
 def send_discord_message(message):
-  url = 'https://discord.com/api/webhooks/1516685405100052500'
-  key = 'wfEAmZeZq2oHwPzNUsn2u2n-d60BApE8kSZgPWyDxaxbV2zbH_3z2j-HaPoCDI3MJRCr'
+  # url = 'https://discord.com/api/webhooks/1516685405100052500'
+  # key = 'wfEAmZeZq2oHwPzNUsn2u2n-d60BApE8kSZgPWyDxaxbV2zbH_3z2j-HaPoCDI3MJRCr'
+  url = 'https://discord.com/api/webhooks/1538826593471037482'
+  key = 'R34AURoT8-pI71knDrMbCWc4EeI83ObJpYywAsZk_XMNSDitW7buCZOciKJZpLLvkmO6'
   payload = {'content': message}
   response = requests.post(f'{url}/{key}', json=payload)
   if response.status_code == 204: print('메시지가 성공적으로 전송되었습니다!')
@@ -50,7 +52,6 @@ def is_completed(filepath):
   send_discord_message(f'{strtime(stop)}, 시뮬레이션 완료\n{filename}')
   
   return 0
-
 
 
 if __name__ == '__main__': is_completed(f'{sys.argv[1]}.log')
