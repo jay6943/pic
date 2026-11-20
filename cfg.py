@@ -10,7 +10,7 @@ draft = 'draft'
 wg = ref['waveguide width']
 eg = ref['waveguide etched width']
 ch = ref['channel spacing']
-dr = ref['delay line step']
+dr = ref['radius step']
 radius = ref['radius']
 angle = ['tilted angle']
 
@@ -33,6 +33,7 @@ lext = ref['tip']['end tip length']
 lpad = ref['pad']['length']
 wpad = ref['pad']['width']
 sdcr = ref['directional coupler spacing']
+stap = ref['tap spacing']
 rings = [139, 140, 141]
 
 duty = 0.5
