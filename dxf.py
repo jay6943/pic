@@ -210,7 +210,7 @@ def tilts(layer, x, y, length, width, angle):
   return (xp[1] + xp[2]) * 0.5, (yp[1] + yp[2]) * 0.5
 
 
-def device(x, y, sign):
+def y1x2(x, y, sign):
   y1 = y + cfg.s1x2
   y2 = y - cfg.s1x2
 
