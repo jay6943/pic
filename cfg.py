@@ -2,7 +2,8 @@ import os
 import dat
 
 ref = dat.jload('cfg')
-path = f'{ref['path']}-{ref['version']}'
+ver = ref['version']
+path = f'{ref['path']}-{ver}'
 if not os.path.isdir(path): os.mkdir(path)
 if not os.path.isdir(dat.libs): os.mkdir(dat.libs)
 draft = 'draft'
@@ -10,7 +11,7 @@ draft = 'draft'
 wg = ref['waveguide width']
 eg = ref['waveguide etched width']
 ch = ref['channel spacing']
-dr = ref['radius step']
+dr = ref['delay radius step']
 radius = ref['radius']
 angle = ['tilted angle']
 
@@ -25,6 +26,8 @@ l4x4 = ref['4x4']['length']
 s4x4 = ref['4x4']['spacing']
 lpbs = ref['PBS']['length']
 wpbs = ref['PBS']['wider']
+rpbs = ref['PBS']['refer']
+spbs = ref['PBS']['spacing']
 ltpr = ref['taper']['length']
 wtpr = ref['taper']['width']
 ltip = ref['tip']['length']
