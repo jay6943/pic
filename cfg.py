@@ -10,6 +10,7 @@ draft = 'draft'
 wg = ref['waveguide width']
 eg = ref['waveguide etched width']
 ch = ref['channel spacing']
+dr = ref['delay line step']
 radius = ref['radius']
 angle = ['tilted angle']
 
