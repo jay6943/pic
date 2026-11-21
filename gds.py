@@ -6,13 +6,13 @@ options.format = 'GDS2'
 options.gds2_max_vertex_count = 4000
 
 
-def saveas(filename, labels):
+def saveas(filename, layers):
   layout = pya.Layout()
   layout.dbu = 0.001
   top = layout.create_cell('TOP')
 
   for i, points in enumerate(dat.points):
-    label = labels[dat.layers[i]]
+    label = layers[dat.layers[i]]
     layer = layout.layer(pya.LayerInfo(label, 0))
 
     points = [pya.DPoint(x, y) for x, y in points]
@@ -44,15 +44,15 @@ def dxf2gds(filename):
   layout.write(f'{filename}.gds', options)
 
 
-def dlayers(filename, labels, label1, label2):
+def dlayers(filename, layers, label1, label2):
   layout = pya.Layout()
   layout.dbu = 0.001
   layout.read(f'{filename}.gds')
 
   top = layout.top_cell()
 
-  layer1 = layout.find_layer(labels[label1], 0)
-  layer2 = layout.find_layer(labels[label2], 0)
+  layer1 = layout.find_layer(layers[label1], 0)
+  layer2 = layout.find_layer(layers[label2], 0)
 
   region1 = pya.Region(top.shapes(layer1))
   region2 = pya.Region(top.shapes(layer2))
@@ -64,15 +64,15 @@ def dlayers(filename, labels, label1, label2):
   layout.write(f'{filename}.gds', options)
 
 
-def players(filename, labels, label1, label2):
+def players(filename, layers, label1, label2):
   layout = pya.Layout()
   layout.dbu = 0.001
   layout.read(f'{filename}.gds')
 
   top = layout.top_cell()
 
-  layer1 = layout.find_layer(labels[label1], 0)
-  layer2 = layout.find_layer(labels[label2], 0)
+  layer1 = layout.find_layer(layers[label1], 0)
+  layer2 = layout.find_layer(layers[label2], 0)
 
   region1 = pya.Region(top.shapes(layer1))
   region2 = pya.Region(top.shapes(layer2))
@@ -135,16 +135,16 @@ def mfiles(fp1, nlayer1, fp2, nlayer2):
   layout1.write(f'{fp1}.gds', options)
 
 
-def texts(filename, labels, x, y):
+def texts(filename, layers, x, y):
   layout = pya.Layout()
   layout.dbu = 0.001
 
   layout.read(f'{filename}.gds')
   top = layout.top_cell()
-  layer = layout.layer(pya.LayerInfo(labels['text'], 0))
+  layer = layout.layer(pya.LayerInfo(layers['text'], 0))
 
-  for title in reversed(list(labels.keys())):
-    text = f'{labels[title]}. {title}'
+  for title in reversed(list(layers.keys())):
+    text = f'{layers[title]}. {title}'
     top.shapes(layer).insert(pya.DText(text, pya.DVector(x, y)))
     y += 1000
 

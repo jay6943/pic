@@ -1,5 +1,5 @@
 import os
-import dat
+import cfg
 import numpy as np
 
 
@@ -39,6 +39,6 @@ class curve:
     w = str(round(self.wg, 4))
     r = str(round(self.r, 4))
     a = str(round(self.angle, 4))
-    fp = f'{dat.libs}/cir_{w}_{r}_{a}_{self.m}.npy'
+    fp = f'{cfg.libs}/cir_{w}_{r}_{a}_{self.m}.npy'
     if not os.path.isfile(fp): self.device(fp)
     return np.load(fp, allow_pickle=True).item()

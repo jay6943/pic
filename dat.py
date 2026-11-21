@@ -9,9 +9,6 @@ layers = []
 points = []
 
 
-libs = '../../mask/libs'
-
-
 def jload(filename):
   fp = open(f'{filename}.json', 'r', encoding='utf-8')
   data = json.load(fp)

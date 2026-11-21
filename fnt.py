@@ -1,4 +1,5 @@
 import dat
+import cfg
 import fontTools.ttLib as ftl
 import fontTools.pens.basePen as ftp
 
@@ -87,4 +88,4 @@ if __name__ == '__main__':
   for i, chars in enumerate(texts):
     print(f'\'{chars}\': {xmax[i]},', end=' ')
 
-  dat.doc.saveas(f'{dat.libs}/fonts.dxf')
+  dat.doc.saveas(f'{cfg.libs}/fonts.dxf')

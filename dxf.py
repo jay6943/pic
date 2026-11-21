@@ -5,10 +5,11 @@ import numpy as np
 
 
 def appends(layer, points):
-  if layer not in dat.layers:
-    dat.doc.layers.add(name=layer)
-  dat.layers.append(layer)
-  dat.points.append(points)
+  if layer in cfg.layers:
+    if layer not in dat.layers:
+      dat.doc.layers.add(layer)
+    dat.layers.append(layer)
+    dat.points.append(points)
 
 
 def saveas(filename):
@@ -108,11 +109,11 @@ def center(idev, x1, x2, lchip):
   return x3 - ldev, x3
 
 
-def arange(xstart, xstop, xstep):
-  s = str(xstep)
+def ranges(start, stop, step):
+  s = str(step)
   if '.' not in s: nums = 0
   else: nums = len(s.split('.')[1])  
-  var = np.arange(xstart, xstop + xstep * 0.5, xstep)
+  var = np.arange(start, stop + step * 0.5, step)
   var = np.round(var, nums)
   return var
 
@@ -208,26 +209,6 @@ def tilts(layer, x, y, length, width, angle):
   xp, yp = xp + x, yp + y
   appends(layer, np.array([xp, yp]).transpose())
   return (xp[1] + xp[2]) * 0.5, (yp[1] + yp[2]) * 0.5
-
-
-def y1x2(x, y, sign):
-  y1 = y + cfg.s1x2
-  y2 = y - cfg.s1x2
-
-  if sign > 0:
-    x1, _ = taper('core', x, y, cfg.ltpr, cfg.wg, cfg.wtpr)
-    x2, _ = srect('core', x1, y, cfg.l1x2, cfg.w1x2)
-    x3, _ = taper('core', x2, y1, cfg.ltpr, cfg.wtpr, cfg.wg)
-    x3, _ = taper('core', x2, y2, cfg.ltpr, cfg.wtpr, cfg.wg)
-  else:
-    x1, _ = taper('core', x, y1, cfg.ltpr, cfg.wg, cfg.wtpr)
-    x1, _ = taper('core', x, y2, cfg.ltpr, cfg.wg, cfg.wtpr)
-    x2, _ = srect('core', x1, y, cfg.l1x2, cfg.w1x2)
-    x3, _ = taper('core', x2, y, cfg.ltpr, cfg.wtpr, cfg.wg)
-
-  srect('edge', x, y, x3 - x, cfg.eg)
-
-  return x3, y1, y2
 
 
 def texts(layer, x, y, title, scale, align):
