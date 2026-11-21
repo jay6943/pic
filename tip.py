@@ -27,35 +27,29 @@ def sline(x, y, xend, title):
 
 
 def refer(x, y):
-  ch = cfg.ch * 0.5
-  title = 'ref'
-  chip(x, y, cfg.lchip)
-  dev.texts(x + cfg.ltip, y - ch, title, 0.3, 'rc')
-  dev.texts(x + cfg.lchip - cfg.ltip, y - ch, title, 0.3, 'lc')
-  return x, y
+  sline(x + cfg.lchip * 0.5, y, x, 'Ref')
+  sline(x + cfg.lchip * 0.5, y, x + cfg.lchip, 'Ref')
+  return x + cfg.lchip, y
 
 
-def chip(x, y, lchip):
-  x1 = x + cfg.ltip
-  x2, _ = dev.sline(x1, y, lchip - 2 * cfg.ltip)
-  device(x1, y, -1)
-  device(x2, y,  1)
-  return x + lchip, y
+def chip(x, y):
+  title = f'TIP-{cfg.wtip:.2f}'
+  sline(x + cfg.lchip * 0.5, y, x, title)
+  sline(x + cfg.lchip * 0.5, y, x + cfg.lchip, title)
+  print(title)
+  return x + cfg.lchip, y
 
 
-def chips(x, y, ranges):
+def chips(x, y, start, stop, step):
   y += cfg.ch
   wtip = cfg.wtip
-  for cfg.wtip in ranges:
-    chip(x, y, cfg.lchip)
-    title = f'TIP-{cfg.wtip:.2f}'
-    dev.texts(x + cfg.ltip, y - cfg.ch * 0.5, title, 0.3, 'rc')
-    dev.texts(x + cfg.lchip - cfg.ltip, y - cfg.ch * 0.5, title, 0.3, 'lc')
+  for cfg.wtip in dxf.ranges(start, stop, step):
+    chip(x, y)
     y += cfg.ch
   cfg.wtip = wtip
   return x + cfg.lchip, y
 
 
 if __name__ == '__main__':
-  chips(0, 0, dxf.arange(0.34, 0.54, 0.02))
+  chips(0, 0, 0.34, 0.54, 0.02)
   dev.saveas('tip')

@@ -25,13 +25,13 @@ def device(x, y, sign):
   return x3, y1, y2
 
 
-def chip(x, y, angle):
+def chip(x, y):
   dy = cfg.ch * 0.5 - cfg.s1x2
 
   idev = len(dat.points)
   x1, y1, y2 = device(x, y, 1)
-  x2, y1 = dev.sbend(x1, y1, angle,  dy)
-  x2, y2 = dev.sbend(x1, y2, angle, -dy)
+  x2, y1 = dev.sbend(x1, y1, cfg.angle,  dy)
+  x2, y2 = dev.sbend(x1, y2, cfg.angle, -dy)
   x5, x6 = dxf.center(idev, x, x2, cfg.lchip)
 
   title = f'1x2-{cfg.l1x2:.1f}'
@@ -43,11 +43,11 @@ def chip(x, y, angle):
   return x + cfg.lchip, y
 
 
-def chips(x, y, angle, start, stop, step):
+def chips(x, y, start, stop, step):
   y += cfg.ch * 1.5
   l1x2 = cfg.l1x2
   for cfg.l1x2 in dxf.ranges(start, stop, step):
-    _, y = chip(x, y, angle)
+    _, y = chip(x, y)
     y += cfg.ch * 2
   cfg.l1x2 = l1x2
 
@@ -55,6 +55,5 @@ def chips(x, y, angle, start, stop, step):
 
 
 if __name__ == '__main__':
-  chips(0, 0, 15, 16, 20, 0.5)
-  # chips(0, 0, 9, 33, 41, 1)
+  chips(0, 0, 16, 20, 0.5)
   dev.saveas(f'1x2_{cfg.draft}')
